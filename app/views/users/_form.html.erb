@@ -1,0 +1,44 @@
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <% content_for :title, "Users" %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Users</h1>
+    <%= link_to "New user", new_user_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <%= form_tag(filter_users_path, method: :get) do %>
+      <%= select_tag 'campaign_names[]', options_for_select(User.fetch_campaign_names), multiple: true %>
+      <%= submit_tag "Filter" %>
+    <% end %>
+  </div>
+
+  <div id="users" class="min-w-full">
+    <table class="table-fixed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Campaigns list</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.campaigns_list %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="flex justify-between items-center">
+    <%= link_to "Back", users_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+</div>
