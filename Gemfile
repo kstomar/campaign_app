@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.0.0"
+ruby "3.1.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.4"
@@ -12,7 +12,8 @@ gem "sprockets-rails"
 gem "mysql2", "~> 0.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
+gem "puma"
+# gem 'puma-daemon', require: false
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -60,7 +61,7 @@ group :development do
   # gem "spring"
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
-  gem "capistrano3-puma"
+  gem "capistrano3-puma", "4.0.0"
   gem 'capistrano-rvm'
 end
 

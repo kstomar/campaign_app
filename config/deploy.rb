@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.18.1"
+lock "~> 3.19.1"
 
 set :application, "campaign_app"
 set :repo_url, "git@github.com:kstomar/campaign_app.git"
