@@ -48,8 +48,14 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+staging:
+  <<: *default
+  database: campaign_app_staging
+  username: root
+  password: password
+
 production:
   <<: *default
   database: campaign_app_production
-  username: campaign_app
-  password: <%= ENV["CAMPAIGN_APP_DATABASE_PASSWORD"] %>
+  username: root
+  password: password
