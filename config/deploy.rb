@@ -48,7 +48,6 @@ set :ssh_options, {
   keys: %w[./testjob.pem]
 }
 set :rails_env, 'staging'
-set :stage, "production"
 
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
