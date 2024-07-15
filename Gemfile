@@ -12,8 +12,9 @@ gem "sprockets-rails"
 gem "mysql2", "~> 0.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma"
-# gem 'puma-daemon', require: false
+gem 'puma', '>= 6.0'
+gem 'puma-daemon', require: false
+# gem 'puma-daemon'#, require: false
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -61,7 +62,7 @@ group :development do
   # gem "spring"
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
-  gem "capistrano3-puma", "4.0.0"
+  gem "capistrano3-puma"
   gem 'capistrano-rvm'
 end
 
