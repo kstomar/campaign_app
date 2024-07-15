@@ -1,35 +1,35 @@
-# This configuration file will be evaluated by Puma. The top-level methods that
-# are invoked here are part of Puma's configuration DSL. For more information
-# about methods provided by the DSL, see https://puma.io/puma/Puma/DSL.html.
+require 'puma/daemon'
 
-# Puma can serve each request in a thread from an internal thread pool.
-# The `threads` method setting takes two numbers: a minimum and maximum.
-# Any libraries that use thread pools should be configured to match
-# the maximum value specified for Puma. Default is set to 5 threads for minimum
-# and maximum; this matches the default thread size of Active Record.
-max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
-min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
-threads min_threads_count, max_threads_count
+workers Integer(ENV['WEB_CONCURRENCY'] || 2)
+threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
+threads threads_count, threads_count
 
-# Specifies that the worker count should equal the number of processors in production.
-if ENV["RAILS_ENV"] == "production" || ENV["RAILS_ENV"] == "staging"
-  require "concurrent-ruby"
-  worker_count = Integer(ENV.fetch("WEB_CONCURRENCY") { Concurrent.physical_processor_count })
-  workers worker_count if worker_count > 1
+preload_app!
+
+rackup      DefaultRackup if defined?(DefaultRackup)
+port        ENV['PORT']     || 3000
+environment ENV['RACK_ENV'] || 'development'
+
+sidekiq_var = nil
+
+on_worker_boot do
+  # Worker-specific setup for Rails 4.1 to 5.2, after 5.2 it's not needed
+  # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
+  ActiveRecord::Base.establish_connection
+
+  sidekiq_var = Sidekiq.configure_embed do |config|
+    config.logger.level = Logger::DEBUG
+    config.logger = ActiveSupport::BroadcastLogger.new(
+      ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new("log/sidekiq.log", formatter: Logger::Formatter.new))
+    )
+    config.queues = %w[critical default image_import image_export delete_platform export_data import_data special_day_offer import_order generate_access_token]
+    config.concurrency = 20
+  end
+  sidekiq_var.run
 end
 
-# Specifies the `worker_timeout` threshold that Puma will use to wait before
-# terminating a worker in development environments.
-worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
+on_worker_shutdown do
+  sidekiq_var&.stop
+end
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT") { 3000 }
-
-# Specifies the `environment` that Puma will run in.
-environment ENV.fetch("RAILS_ENV") { "staging" }
-
-# Specifies the `pidfile` that Puma will use.
-pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
-
-# Allow puma to be restarted by `bin/rails restart` command.
-plugin :tmp_restart
+daemonize
