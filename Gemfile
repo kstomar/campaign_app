@@ -62,7 +62,7 @@ group :development do
   # gem "spring"
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
-  gem "capistrano3-puma"
+  gem "capistrano3-puma", github: "seuros/capistrano-puma"
   gem 'capistrano-rvm'
 end
 
