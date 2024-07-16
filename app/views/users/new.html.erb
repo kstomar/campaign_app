@@ -1,3 +1,4 @@
+<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Create New User:</h1>
 <%= form_with(model: @user, url: users_path) do |form| %>
 
   <% if @user.errors.any? %>
@@ -11,34 +12,29 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
+  <div class="mb-5">
+    <%= form.label :name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
     <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :email %>
+  <div class="mb-5">
+    <%= form.label :email, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
     <%= form.email_field :email %>
   </div>
 
-  <div class="field">
-    <%= form.label :campaigns_list, 'Campaigns List (JSON)' %>
+  <div class="mb-5">
+    <%= form.label :campaigns_list, 'Campaigns List (JSON)', class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
   </div>
 
-  <div class="field">
-    <%= form.label :campaign_name %>
+  <div class="mb-5">
+    <%= form.label :campaign_name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
     <%= form.text_field :campaigns_name, name: "user[campaigns_list][campaign_name]" %>
   </div>
 
-  <div class="field">
-    <%= form.label :campaign_id %>
+  <div class="mb-5">
+    <%= form.label :campaign_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
     <%= form.text_field :campaigns_id, name: "user[campaigns_list][campaign_id]" %>
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-
+  <%= form.submit 'Create User', class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   <%= link_to "Back to users", users_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-
 <% end %>

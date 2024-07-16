@@ -70,3 +70,18 @@ namespace :puma do
   end
   before :start, :make_dirs
 end
+Rake::Task["config"].clear_actions
+Rake::Task["bundler:config"].clear_actions
+Rake::Task["bundler:config"].clear_actions
+
+
+namespace :bundler do
+  desc 'Create Directories for Puma Pids and Socket'
+  task :config do
+    Rake::Task["config"].clear_actions
+    Rake::Task["bundler:config"].clear_actions
+
+    on roles(:app) do
+    end
+  end
+end

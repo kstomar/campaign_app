@@ -10,35 +10,76 @@
     <%= link_to "New user", new_user_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div class="flex justify-between items-center">
-    <%= form_tag(filter_users_path, method: :get) do %>
-      <%= select_tag 'campaign_names[]', options_for_select(User.fetch_campaign_names), multiple: true %>
-      <%= submit_tag "Filter" %>
+  <div class="campaign_form">
+    <%= form_tag(filter_users_path, method: :get, class: "max-w-sm mx-auto") do %>
+      <%= label_tag :small, 'Select an campaign names to filter:', class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= select_tag 'campaign_names[]', options_for_select(User.fetch_campaign_names), multiple: true, class: "block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", id: 'campaign_names' %>
+
+      <%= submit_tag "Filter", class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium", id: "campaign_submit" %>
     <% end %>
   </div>
 
   <div id="users" class="min-w-full">
-    <table class="table-fixed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Campaigns list</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.name %></td>
-          <td><%= user.email %></td>
-          <td><%= user.campaigns_list %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <% if @users.present? %>
+      <table class="table-fixed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Campaigns list</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= user.campaigns_list %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <h5 class="font-bold text-4xl">No record found!</h5>
+    <% end %>
   </div>
 
   <div class="flex justify-between items-center">
-    <%= link_to "Back", users_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to "All User Lists", users_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 </div>
+
+<style type="text/css">
+  .campaign_form {
+    margin-left: 145px;
+    margin-top: -30px;
+  }
+
+  #campaign_names {
+    width: 15%;
+    margin: 0px;
+    position: absolute;
+    left: 36%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+  }
+
+  #campaign_submit {
+    margin: 0px;
+    position: absolute;
+    left: 52%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  table, th, td {
+    border: 1px solid;
+  }
+  .min-w-full {
+    margin-top: 75px;
+    margin-left: 55px;
+    padding: 10px;
+  }
+</style>
