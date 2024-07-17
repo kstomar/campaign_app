@@ -1,4 +1,4 @@
-server '3.6.88.189', user: 'ubuntu', roles: %w{web app db}
+server '65.0.129.233', user: 'ubuntu', roles: %w{web app db}
 
 # server-based syntax
 # ======================
