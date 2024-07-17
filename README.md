@@ -25,5 +25,5 @@
     `https://api.postman.com/collections/9303429-dbc149eb-5cd7-4e66-8c2d-af701ea60493`
 
 ## EC2 Instance details:
-  - You can access the UI just hit on the browser: http://65.0.129.233
-  - You can access the api just append url before endpoints: http://65.0.129.233
+  - You can access the UI just hit on the browser: http://13.202.154.247
+  - You can access the api just append url before endpoints: http://13.202.154.247
